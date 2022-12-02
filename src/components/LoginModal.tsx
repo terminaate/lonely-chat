@@ -4,7 +4,6 @@ import useInputState from '@/hooks/useInputState';
 import { login } from '@/store/reducers/userSlice';
 import { Button, Form, Modal } from 'react-bootstrap';
 
-
 interface ILoginModal {
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
   visible: boolean;
@@ -22,14 +21,18 @@ const LoginModal: FC<ILoginModal> = ({ setVisible, visible }) => {
     }
   };
 
-
   return (
     <Modal show={visible}>
       <Modal.Body>
         <Form onSubmit={onSubmit}>
           <Form.Group className={'mb-3'}>
             <Form.Label>Username:</Form.Label>
-            <Form.Control type='text' placeholder={'Enter username'} value={loginInput} onChange={onLoginInputChange} />
+            <Form.Control
+              type="text"
+              placeholder={'Enter username'}
+              value={loginInput}
+              onChange={onLoginInputChange}
+            />
           </Form.Group>
           <Button type={'submit'}>Sign in</Button>
         </Form>

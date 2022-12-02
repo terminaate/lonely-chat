@@ -4,7 +4,7 @@ import userSlice from '@/store/reducers/userSlice';
 
 const store = configureStore({
   reducer: {
-    userSlice
+    userSlice,
   },
 });
 export default store;

@@ -1,4 +1,10 @@
-import React, { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  FormEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import useInputState from '@/hooks/useInputState';
 import { useAppSelector } from '@/store';
 import { Button, Card, Form, Stack } from 'react-bootstrap';
@@ -7,19 +13,23 @@ type MessageProps = {
   id: number;
   text: string;
   author: string;
-}
+};
 
 const MessagesPage = () => {
   const [messages, setMessages] = useState<MessageProps[]>([]);
-  const [messageInput, onMessageInputChange, setMessageInput] = useInputState('');
-  const { name } = useAppSelector(state => state.userSlice.user);
+  const [messageInput, onMessageInputChange, setMessageInput] =
+    useInputState('');
+  const { name } = useAppSelector((state) => state.userSlice.user);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const onStorageChange = useCallback(() => {
     const localMessages = localStorage.getItem('messages');
     if (localMessages !== JSON.stringify(messages)) {
       setMessages(JSON.parse(localMessages!));
-      containerRef.current?.scrollTo({ top: containerRef?.current.clientHeight, behavior: 'smooth' });
+      containerRef.current?.scrollTo({
+        top: containerRef?.current.clientHeight,
+        behavior: 'smooth',
+      });
     }
   }, []);
 
@@ -49,7 +59,10 @@ const MessagesPage = () => {
         text: messageInput,
         author: name!,
       };
-      localStorage.setItem('messages', JSON.stringify([...messages, newMessage]));
+      localStorage.setItem(
+        'messages',
+        JSON.stringify([...messages, newMessage]),
+      );
       window.dispatchEvent(new Event('storage'));
       setMessageInput('');
     }
@@ -59,19 +72,24 @@ const MessagesPage = () => {
     <Stack gap={3} className={'p-4 h-100'}>
       <Stack gap={3} className={'h-75 overflow-scroll'} ref={containerRef}>
         {messages.map((message, key) => (
-          <Card key={key} {...(message.author === name && {bg: "primary", text: "white"})}>
+          <Card
+            key={key}
+            {...(message.author === name && { bg: 'primary', text: 'white' })}
+          >
             <Card.Header>{message.author}</Card.Header>
-            <Card.Body>
-              {message.text}
-            </Card.Body>
+            <Card.Body>{message.text}</Card.Body>
           </Card>
         ))}
       </Stack>
       <Form onSubmit={onMessageSubmit}>
         <Form.Label>Message text:</Form.Label>
         <Stack direction={'horizontal'}>
-          <Form.Control type='text' value={messageInput} onChange={onMessageInputChange}
-                        placeholder={'Enter message'} />
+          <Form.Control
+            type="text"
+            value={messageInput}
+            onChange={onMessageInputChange}
+            placeholder={'Enter message'}
+          />
           <Button type={'submit'}>Send</Button>
         </Stack>
       </Form>
