@@ -1,10 +1,4 @@
-import React, {
-  FormEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import useInputState from '@/hooks/useInputState';
 import { useAppSelector } from '@/store';
 import { Button, Card, Form, Stack } from 'react-bootstrap';
@@ -33,14 +27,14 @@ const MessagesPage = () => {
     }
   }, []);
 
-  const parseMessages = () => {
+  const parseMessages = useCallback(() => {
     const localMessages = localStorage.getItem('messages');
     if (!localMessages) {
       localStorage.setItem('messages', '[]');
     } else if ((JSON.parse(localMessages) as MessageProps[]).length) {
       setMessages(JSON.parse(localMessages));
     }
-  };
+  }, []);
 
   useEffect(() => {
     parseMessages();
@@ -85,7 +79,7 @@ const MessagesPage = () => {
         <Form.Label>Message text:</Form.Label>
         <Stack direction={'horizontal'}>
           <Form.Control
-            type="text"
+            type='text'
             value={messageInput}
             onChange={onMessageInputChange}
             placeholder={'Enter message'}
